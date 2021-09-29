@@ -1,0 +1,120 @@
+****** Amazon S3 ******
+
+---------------------------------------------	
+--- OVERVIEW
+---------------------------------------------
+
+--> Zonas de disponibilidade: 1 ou mais datacenter
+
+--> Beneficios S3  
+	- durabilidade
+	- disponibilidade
+	- escalabilidade
+	- Seguro
+
+
+--> Como mover dados para o S3
+	- Kinesis Data Firehose
+	- Aws Direct Connect
+	- Amazon Kinesis Data Streams
+	- Amazon Kinesis Video Streams
+	- Amazon S3 Transfer Acceleration
+	- AWS Storage Gateway
+	- AWS Snowball
+	- AWS Snowball Edge
+	- AWS Snowmobile
+	- AWS DataSync
+	- AWS SFTP
+
+
+--> Você precisar escolher: Qual classe do S3 vamos utilizar?	
+	* Quanto meu dado é acessado? Muito ou pouco acessado.
+		
+		>>> Frequente
+			. S3 Standard
+
+		>>> Infrequente
+			. S3 Standard-IA
+			. S3 One Zone-IA (onde temos os dados somente em 1 zona de disponibilidade)
+		
+		>>> Archive (classes de arquivamento)
+			. S3 Glacier (90 dias)
+			. S3 Glacier Deep Archive (180 dias)
+			
+		>>> Perfil muda com muita frequencia
+			. S3 Intelligent-Tiering (é feito uma monitoração e a classe é movida automaticamente, 
+									  deve usar quando não sabemos a frequencia).
+			
+
+	
+--> Lifecycle 
+	- Políticas usam regras para gerenciar o armazenamento
+	- podemos configurar a movimentação dos dados. 
+
+--> Ingestão de dados
+	- PUT
+	- COPY
+	- cross-region replicação
+	- lifecycle
+		 			
+--> Como decidir?
+	- Frequencia de acesso
+	- Tamanho do objeto
+	
+	. Se você tiver muitos objetos pequenos, é ideal você agregar eles em um objeto maior, menos acessos -> mais barato.
+	
+--> Tempo de acesso
+	- milissegundos :: S3 Standard, S3 Intelligent-Tiering, S3 Standard-IA, S3 One Zone-IA.
+	- minutos :: Glacier
+	- horas :: S3 Glacier Deep Archive
+	
+---------------------------------------------	
+--- GERENCIAMENTO
+---------------------------------------------
+
+--> Como receber insights da AWS?
+
+	- S3 inventory 
+		. é um relatório gerado
+		. podemos escolher o tipo (parquet, csv)
+		. frequencia (diario, semanal)
+		. usa o bucket
+
+	- Amazon S3 Storage Class Analysis (sobre acessos)
+		. quanto de dados fiz retrieve?
+		. porcentagem que fiz retrieve?
+		. quanto de dados não está sendo acessado?
+		. usa o bucket
+		
+	- S3 Storage Lens
+		. 29 Metricas (utilização e atividade)
+		. tem um nível de agregação maior do que as 2 opções anteriores
+		. atualização diária
+		. retenção de até 15 meses
+		. sugere recomendações
+		. Pilares: 
+			* Resumo
+			* eficiencia de custo
+			* proteção do dado
+			* atividade
+		
+		. preços (2 pricing tiers):
+			* metrica "free" 
+			* metricas "advanced"
+			
+	
+---------------------------------------------	
+--- RESUMO
+---------------------------------------------
+
+--> o que a aplicação precisa (requisitos)?
+	- redundância
+	- disponibilidade
+	- padrão de acesso
+	- tamanho do objeto
+	- performance
+	- duração
+	
+--> A organização do bucket é importantíssima!
+	- Uso de prefixos
+	- tags nos objetos
